@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+
+    hikari:
+      pool-name: HikariOraclePool
+    url: ${db.url}
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create
