@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Inheritance(strategy = InheritanceType.JOINED)
-//@DiscriminatorColumn(name = "DISCRIMINATOR_COLUMN")
 public abstract class User {
 
     @Id
@@ -21,12 +20,14 @@ public abstract class User {
     @Setter(AccessLevel.NONE)
     protected Long id;
 
-    @Column(name = "FIRST_NAME", nullable = false)
     @NotNull
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
     private String lastName;
 
+    @NotNull
+    @Column(unique = true)
     private String mobileNumber;
 
     @Override

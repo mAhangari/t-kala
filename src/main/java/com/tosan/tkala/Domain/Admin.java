@@ -1,7 +1,6 @@
 package com.tosan.tkala.Domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -9,8 +8,20 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("ADMIN")
 @Getter
-@Setter
+//@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Admin extends User {
 
     private String nationalId;
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                super.toString()
+                +
+                "nationalId='" + nationalId + '\'' +
+                '}';
+    }
 }

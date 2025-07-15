@@ -18,4 +18,8 @@ public class Store {
 
     @Column(name = "STORE_NAME")
     private String name;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private User user;
+
 }
