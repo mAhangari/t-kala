@@ -1,6 +1,6 @@
-package com.tosan.tkala.Domain;
+package com.tosan.tkala.domain;
 
-import com.tosan.tkala.Domain.enumuration.PaymentStatus;
+import com.tosan.tkala.domain.enumuration.PaymentStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;

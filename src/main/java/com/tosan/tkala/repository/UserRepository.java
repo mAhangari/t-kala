@@ -1,8 +1,7 @@
 package com.tosan.tkala.repository;
 
-import com.tosan.tkala.Domain.User;
+import com.tosan.tkala.domain.User;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
 
 @Repository

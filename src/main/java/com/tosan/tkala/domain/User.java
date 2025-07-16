@@ -1,4 +1,4 @@
-package com.tosan.tkala.Domain;
+package com.tosan.tkala.domain;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,6 +29,13 @@ public abstract class User {
     @NotNull
     @Column(unique = true)
     private String mobileNumber;
+
+    /*@AttributeOverride(name = "street", column = @Column(name = "home_street"))
+    @AttributeOverride(name = "postalCode", column = @Column(name = "home_postalCode"))
+    @AttributeOverride(name = "city", column = @Column(name = "home_city"))*/
+    private Address homeAddress;
+
+    /*private Address workAddress;*/
 
     @Override
     public String toString() {

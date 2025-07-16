@@ -1,4 +1,4 @@
-package com.tosan.tkala.Domain;
+package com.tosan.tkala.domain;
 
 import lombok.*;
 
