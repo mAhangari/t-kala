@@ -29,4 +29,7 @@ public class Order {
 
     @UpdateTimestamp
     private LocalDateTime updateDate;
+
+    @ManyToOne
+    private Customer customer;
 }

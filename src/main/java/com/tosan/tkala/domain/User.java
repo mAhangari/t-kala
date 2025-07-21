@@ -6,12 +6,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name = "USER_TABLE")
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class User {
 
     @Id
@@ -33,7 +35,10 @@ public abstract class User {
     /*@AttributeOverride(name = "street", column = @Column(name = "home_street"))
     @AttributeOverride(name = "postalCode", column = @Column(name = "home_postalCode"))
     @AttributeOverride(name = "city", column = @Column(name = "home_city"))*/
-    private Address homeAddress;
+
+    @OneToMany(cascade = {CascadeType.PERSIST/*, CascadeType.REMOVE*/}, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private Collection<Address> addresses = new ArrayList<>();
 
     /*private Address workAddress;*/
 

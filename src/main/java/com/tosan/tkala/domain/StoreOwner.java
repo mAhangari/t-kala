@@ -17,9 +17,9 @@ import java.util.Set;
 @Setter
 public class StoreOwner extends User {
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
-    @org.hibernate.annotations.OnDelete(action = OnDeleteAction.CASCADE)
-    /*@JoinColumn(name = "USER_ID")*/
+    @OneToMany(/*mappedBy = "user", */cascade = {CascadeType.PERSIST, CascadeType.REMOVE}/*, orphanRemoval = true*/)
+    /*@org.hibernate.annotations.OnDelete(action = OnDeleteAction.CASCADE)*/
+    @JoinColumn(name = "USER_ID", nullable = true/*, insertable = false, updatable = false*/)
     /*@OrderColumn*/
     private Set<Store> stores = new HashSet<>();
 }

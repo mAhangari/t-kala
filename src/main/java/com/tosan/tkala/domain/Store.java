@@ -26,8 +26,8 @@ public class Store {
     @Column(name = "STORE_NAME")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "USER_ID")
+    @ManyToOne/*(cascade = CascadeType.PERSIST)*/
+    @JoinColumn(name = "USER_ID"/*, insertable = false, updatable = false*/)
     private User user;
 
     @CreationTimestamp
@@ -35,14 +35,6 @@ public class Store {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    /*public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt.truncatedTo(ChronoUnit.DAYS);
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt.truncatedTo(ChronoUnit.DAYS);
-    }*/
 
     @Override
     public String toString() {

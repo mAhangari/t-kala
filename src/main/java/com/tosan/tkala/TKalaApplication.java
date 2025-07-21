@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class TKalaApplication {
 
@@ -36,8 +38,8 @@ public class TKalaApplication {
             storeOwner.setLastName("Faalian");
             storeOwner.setMobileNumber("0912345678");
 
-            User savedUser = userRepository.save(user);
-            User savedUserOne = userRepository.save(userOne);
+            /*User savedUser = userRepository.save(user);
+            User savedUserOne = userRepository.save(userOne);*/
             //User savedStoreOwner = userRepository.save(storeOwner);
 
             Store store = new Store();
@@ -49,12 +51,23 @@ public class TKalaApplication {
             storeOwner.getStores().add(store);
 
             /*userRepository.save(storeOwner);*/
-            /*userRepository.save(userWithAddress());*/
+            User savedUser = userRepository.save(userWithAddress());
 
-            userRepository.save(storeOwnerWithMultipleStore());
+            /*userRepository.delete(savedUser);*/
+            User userWithAddress = userRepository.findById(1L).get();
 
-            userRepository.delete(userRepository.findById(3L).get());
+            userWithAddress.getAddresses().remove(userWithAddress.getAddresses().stream().findFirst().get());
+            userRepository.save(userWithAddress);
 
+
+            /*userRepository.save(storeOwnerWithMultipleStore());*/
+
+            /*userRepository.delete(userRepository.findById(3L).get());*/
+
+            /*Store storeWithStoreOwner = storeWithStoreOwner();
+            User savedUser = userRepository.save(storeWithStoreOwner.getUser());
+
+            storeRepository.save(storeWithStoreOwner);*/
 
             /*Store store1 = storeRepository.findById(1L).get();
             store1.setName("Shahi Store 2");
@@ -88,7 +101,7 @@ public class TKalaApplication {
         storeOwner.setFirstName("Mohammad");
         storeOwner.setLastName("Faalian");
         storeOwner.setMobileNumber("0912345678");
-        storeOwner.setHomeAddress(homeAddress);
+        storeOwner.setAddresses(List.of(homeAddress, workAddress));
         /*storeOwner.setWorkAddress(workAddress);*/
 
         return storeOwner;
@@ -102,16 +115,30 @@ public class TKalaApplication {
 
         Store store1 = new Store();
         store1.setName("Shahi Store");
-        store1.setUser(storeOwner);
+        /*store1.setUser(storeOwner);*/
 
         Store store2 = new Store();
         store2.setName("Tehran Store");
-        store2.setUser(storeOwner);
+        /*store2.setUser(storeOwner);*/
 
         storeOwner.getStores().add(store1);
         storeOwner.getStores().add(store2);
 
         return storeOwner;
+    }
+
+    private Store storeWithStoreOwner() {
+
+        StoreOwner storeOwner = new StoreOwner();
+        storeOwner.setFirstName("Mohammad");
+        storeOwner.setLastName("Faalian");
+        storeOwner.setMobileNumber("0912345678");
+
+        Store store = new Store();
+        store.setName("Shahi Store");
+        store.setUser(storeOwner);
+
+        return store;
     }
 
 }
