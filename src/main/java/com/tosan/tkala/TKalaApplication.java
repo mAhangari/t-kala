@@ -4,6 +4,7 @@ import com.tosan.tkala.domain.*;
 import com.tosan.tkala.repository.AdminRepository;
 import com.tosan.tkala.repository.StoreRepository;
 import com.tosan.tkala.repository.UserRepository;
+import com.tosan.tkala.service.ProductService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +22,7 @@ public class TKalaApplication {
     @Bean
     public ApplicationRunner runApplication(UserRepository<User, Long> userRepository,
                                             AdminRepository adminRepository,
-                                            StoreRepository storeRepository) {
+                                            StoreRepository storeRepository, ProductService productService) {
         return exec -> {
             Customer user = new Customer();
             user.setFirstName("Morteza");
@@ -51,14 +52,15 @@ public class TKalaApplication {
             storeOwner.getStores().add(store);
 
             /*userRepository.save(storeOwner);*/
-            User savedUser = userRepository.save(userWithAddress());
+            /*User savedUser = userRepository.save(userWithAddress());*/
 
             /*userRepository.delete(savedUser);*/
-            User userWithAddress = userRepository.findById(1L).get();
+            /*User userWithAddress = userRepository.findById(1L).get();*/
 
-            userWithAddress.getAddresses().remove(userWithAddress.getAddresses().stream().findFirst().get());
-            userRepository.save(userWithAddress);
-
+            /*userWithAddress.getAddresses().remove(userWithAddress.getAddresses().stream().findFirst().get());*/
+//            userRepository.save(userWithAddress);
+            productService.save(simpleProduct());
+            /*productService.findById(1L);*/
 
             /*userRepository.save(storeOwnerWithMultipleStore());*/
 
@@ -76,9 +78,8 @@ public class TKalaApplication {
 
             System.out.println(storeRepository.findById(1L).get());;*/
 
-            System.out.println(userRepository.findAll());
+//            System.out.println(userRepository.findAll());
             /*System.out.println(adminRepository.findById(savedUserOne.getId()));*/
-
 
 
         };
@@ -139,6 +140,15 @@ public class TKalaApplication {
         store.setUser(storeOwner);
 
         return store;
+    }
+
+    private Product simpleProduct() {
+        Product product = new Product();
+        product.setProductQuantity(10);
+        product.setName("Iphone");
+        product.setColor("Blue");
+
+        return product;
     }
 
 }

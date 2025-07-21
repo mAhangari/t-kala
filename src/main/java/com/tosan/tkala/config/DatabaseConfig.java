@@ -1,9 +1,9 @@
-/*
 package com.tosan.tkala.config;
 
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @EnableJpaRepositories(value = {"com.tosan.tkala"})
+@Configuration
 public class DatabaseConfig {
 
 
@@ -24,9 +25,13 @@ public class DatabaseConfig {
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
-        dataSource.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:testdb?serverTimezone=UTC");
+        dataSource.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe?serverTimezone=UTC");
         dataSource.setUsername("system");
         dataSource.setPassword("123");
+
+        dataSource.setMaximumPoolSize(10);
+        dataSource.setMinimumIdle(2);
+        dataSource.setIdleTimeout(30000);
 
         return dataSource;
     }
@@ -40,6 +45,7 @@ public class DatabaseConfig {
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
         jpaVendorAdapter.setDatabase(Database.ORACLE);
+        jpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.Oracle10gDialect");
         jpaVendorAdapter.setShowSql(true);
         return jpaVendorAdapter;
     }
@@ -53,14 +59,16 @@ public class DatabaseConfig {
         localContainerEntityManagerFactoryBean.setDataSource(dataSource);
 
         Properties properties = new Properties();
-        properties.put("hibernate.hbm2ddl.auto", "create");
+        properties.put("hibernate.hbm2ddl.auto", "update");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
+        properties.put("hibernate.format_sql", "true");
+        properties.put("hibernate.jpa.compliance.proxy", "false");
         localContainerEntityManagerFactoryBean.setJpaProperties(properties);
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
-        localContainerEntityManagerFactoryBean.setPackagesToScan("com.tosan.tkala.repository");
+        localContainerEntityManagerFactoryBean.setPackagesToScan("com.tosan.tkala");
 
         return localContainerEntityManagerFactoryBean;
     }
 
 
 }
-*/
