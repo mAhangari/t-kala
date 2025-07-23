@@ -2,14 +2,13 @@ package com.tosan.tkala.repository.impl;
 
 import com.tosan.tkala.domain.Product;
 import com.tosan.tkala.repository.ProductRepository;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManagerFactory;
-
+@Repository
 public class ProductRepositoryImpl extends AbstractBaseRepository<Product, Long> implements ProductRepository {
 
-    public ProductRepositoryImpl(EntityManagerFactory entityManagerFactory) {
-        super(entityManagerFactory, Product.class);
+    public ProductRepositoryImpl() {
+        super(Product.class);
     }
-
 
 }

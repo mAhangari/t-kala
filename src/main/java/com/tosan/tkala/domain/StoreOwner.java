@@ -7,19 +7,16 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
 @Setter
 public class StoreOwner extends User {
 
-    @OneToMany(/*mappedBy = "user", */cascade = {CascadeType.PERSIST, CascadeType.REMOVE}/*, orphanRemoval = true*/)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}/*, orphanRemoval = true*/, fetch = FetchType.LAZY)
     /*@org.hibernate.annotations.OnDelete(action = OnDeleteAction.CASCADE)*/
-    @JoinColumn(name = "USER_ID", nullable = true/*, insertable = false, updatable = false*/)
+    /*@JoinColumn(name = "USER_ID", nullable = true*//*, insertable = false, updatable = false*//*)*/
     /*@OrderColumn*/
-    private Set<Store> stores = new HashSet<>();
+    private Collection<Store> stores = new ArrayList<>();
 }

@@ -3,38 +3,37 @@ package com.tosan.tkala.repository.impl;
 import com.tosan.tkala.repository.BaseRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 public abstract class AbstractBaseRepository<T, ID> implements BaseRepository<T, ID> {
 
-    private EntityManagerFactory emf;
+    @PersistenceContext
     protected EntityManager em;
     private final Class<T> clazz;
 
-    public AbstractBaseRepository(EntityManagerFactory entityManagerFactory, Class<T> clazz) {
-        this.emf = entityManagerFactory;
+    public AbstractBaseRepository(Class<T> clazz) {
         this.clazz = clazz;
     }
 
     @Override
     public T findById(ID id) {
-        return getEm().find(clazz, id);
+        return em.find(clazz, id);
     }
 
     @Override
     public List<T> findAll() {
-        return getEm().createQuery("from " + clazz.getName(), clazz).getResultList();
+        return em.createQuery("from " + clazz.getName(), clazz).getResultList();
     }
 
     @Override
     public void insert(T entity) {
-        getEm().persist(entity);
+        em.persist(entity);
     }
 
     @Override
     public void delete(T entity) {
-        getEm().remove(entity);
+        em.remove(entity);
     }
 
     @Override
@@ -48,12 +47,4 @@ public abstract class AbstractBaseRepository<T, ID> implements BaseRepository<T,
         return null;
     }
 
-    @Override
-    public EntityManager getEm() {
-        if (em != null && em.isOpen())
-            return em;
-
-        this.em = emf.createEntityManager();
-        return em;
-    }
 }

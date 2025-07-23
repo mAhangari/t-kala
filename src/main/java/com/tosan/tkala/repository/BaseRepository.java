@@ -1,6 +1,5 @@
 package com.tosan.tkala.repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 public interface BaseRepository<T, ID> {
@@ -17,5 +16,4 @@ public interface BaseRepository<T, ID> {
 
     List<T> findByProperty(String propertyName, Object propertyValue);
 
-    EntityManager getEm();
 }

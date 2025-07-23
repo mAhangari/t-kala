@@ -10,6 +10,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -26,7 +28,7 @@ public class Store {
     @Column(name = "STORE_NAME")
     private String name;
 
-    @ManyToOne/*(cascade = CascadeType.PERSIST)*/
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "USER_ID"/*, insertable = false, updatable = false*/)
     private User user;
 
@@ -35,6 +37,13 @@ public class Store {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "STORE_PRODUCT_TABLE",
+            joinColumns = @JoinColumn(name = "STORE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
+    )
+    private Set<Product> products = new HashSet<>();
 
     @Override
     public String toString() {

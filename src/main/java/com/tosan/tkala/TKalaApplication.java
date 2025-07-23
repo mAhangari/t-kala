@@ -2,9 +2,12 @@ package com.tosan.tkala;
 
 import com.tosan.tkala.domain.*;
 import com.tosan.tkala.repository.AdminRepository;
+import com.tosan.tkala.repository.StoreOwnerRepository;
 import com.tosan.tkala.repository.StoreRepository;
 import com.tosan.tkala.repository.UserRepository;
 import com.tosan.tkala.service.ProductService;
+import com.tosan.tkala.service.StoreOwnerService;
+import com.tosan.tkala.service.StoreService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +25,10 @@ public class TKalaApplication {
     @Bean
     public ApplicationRunner runApplication(UserRepository<User, Long> userRepository,
                                             AdminRepository adminRepository,
-                                            StoreRepository storeRepository, ProductService productService) {
+                                            StoreOwnerService storeOwnerService,
+                                            StoreRepository storeRepository,
+                                            StoreService storeService,
+                                            ProductService productService) {
         return exec -> {
             Customer user = new Customer();
             user.setFirstName("Morteza");
@@ -51,6 +57,8 @@ public class TKalaApplication {
 //            Store savedStoreOwner = storeRepository.save(store);
             storeOwner.getStores().add(store);
 
+            storeService.saveStore(storeWithProduct());
+
             /*userRepository.save(storeOwner);*/
             /*User savedUser = userRepository.save(userWithAddress());*/
 
@@ -59,10 +67,15 @@ public class TKalaApplication {
 
             /*userWithAddress.getAddresses().remove(userWithAddress.getAddresses().stream().findFirst().get());*/
 //            userRepository.save(userWithAddress);
-            productService.save(simpleProduct());
+            /*productService.save(simpleProduct());*/
             /*productService.findById(1L);*/
 
             /*userRepository.save(storeOwnerWithMultipleStore());*/
+
+            /*storeOwnerService.findStoreOwnerByMobileNumber("0912345678");*/
+            /*storeService.findStoreByName("Shahi Store");*/
+
+
 
             /*userRepository.delete(userRepository.findById(3L).get());*/
 
@@ -149,6 +162,15 @@ public class TKalaApplication {
         product.setColor("Blue");
 
         return product;
+    }
+
+    private Store storeWithProduct() {
+
+        Store store = new Store();
+        store.setName("Shahi Store");
+        store.getProducts().add(simpleProduct());
+
+        return store;
     }
 
 }
