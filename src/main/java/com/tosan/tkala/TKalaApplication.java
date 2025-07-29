@@ -13,7 +13,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class TKalaApplication {
@@ -57,7 +60,8 @@ public class TKalaApplication {
 //            Store savedStoreOwner = storeRepository.save(store);
             storeOwner.getStores().add(store);
 
-            storeService.saveStore(storeWithProduct());
+//            storeService.saveStore(storeWithStoreOwner());
+//            storeService.saveAllStore(storeWithProduct());
 
             /*userRepository.save(storeOwner);*/
             /*User savedUser = userRepository.save(userWithAddress());*/
@@ -67,7 +71,7 @@ public class TKalaApplication {
 
             /*userWithAddress.getAddresses().remove(userWithAddress.getAddresses().stream().findFirst().get());*/
 //            userRepository.save(userWithAddress);
-            /*productService.save(simpleProduct());*/
+            productService.save(simpleProduct().get(0));
             /*productService.findById(1L);*/
 
             /*userRepository.save(storeOwnerWithMultipleStore());*/
@@ -155,22 +159,37 @@ public class TKalaApplication {
         return store;
     }
 
-    private Product simpleProduct() {
-        Product product = new Product();
-        product.setProductQuantity(10);
-        product.setName("Iphone");
-        product.setColor("Blue");
+    private List<Product> simpleProduct() {
+        Product productOne = new Product();
+        productOne.setProductQuantity(10);
+        productOne.setName("Iphone");
+        productOne.setColor("Blue");
 
-        return product;
+        Product productTwo = new Product();
+        productTwo.setProductQuantity(12);
+        productTwo.setName("Television");
+        productTwo.setColor("Green");
+
+        List<Product> products = new ArrayList<>();
+        products.add(productOne);
+        products.add(productTwo);
+
+        return products;
     }
 
-    private Store storeWithProduct() {
+    private List<Store> storeWithProduct() {
+        List<Product> products = simpleProduct();
+        Store storeOne = new Store();
+        storeOne.setName("Shahi Store");
+        storeOne.getProducts().add(products.get(0));
+        storeOne.getProducts().add(products.get(1));
 
-        Store store = new Store();
-        store.setName("Shahi Store");
-        store.getProducts().add(simpleProduct());
+        Store storeTwo = new Store();
+        storeTwo.setName("Karaj Store");
+        storeTwo.getProducts().add(products.get(0));
+        storeTwo.getProducts().add(products.get(1));
 
-        return store;
+        return List.of(storeOne, storeTwo);
     }
 
 }

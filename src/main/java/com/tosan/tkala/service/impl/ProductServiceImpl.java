@@ -2,6 +2,7 @@ package com.tosan.tkala.service.impl;
 
 import com.tosan.tkala.domain.Payment;
 import com.tosan.tkala.domain.Product;
+import com.tosan.tkala.domain.dto.PurchaseProductDTO;
 import com.tosan.tkala.domain.enumuration.PaymentStatus;
 import com.tosan.tkala.repository.ProductRepository;
 import com.tosan.tkala.service.ProductService;
@@ -74,5 +75,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void delete(Product entity) {
         productRepository.delete(entity);
+    }
+
+    @Override
+    @Transactional//(timeout = 5)
+    public void purchaseProduct(PurchaseProductDTO purchaseProduct) {
+        Product product = productRepository.findById(purchaseProduct.getProductId());
+        if (product.getProductQuantity() < purchaseProduct.getProductCount())
+            throw new RuntimeException("Product quantity is not enough!");
+        product.setProductQuantity(product.getProductQuantity() - purchaseProduct.getProductCount());
     }
 }

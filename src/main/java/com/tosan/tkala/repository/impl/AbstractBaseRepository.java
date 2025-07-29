@@ -3,8 +3,10 @@ package com.tosan.tkala.repository.impl;
 import com.tosan.tkala.repository.BaseRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractBaseRepository<T, ID> implements BaseRepository<T, ID> {
 
@@ -18,7 +20,10 @@ public abstract class AbstractBaseRepository<T, ID> implements BaseRepository<T,
 
     @Override
     public T findById(ID id) {
-        return em.find(clazz, id);
+        return em.find(clazz, id, LockModeType.PESSIMISTIC_READ, Map.of(
+                "javax.persistence.lock.timeout", 5000,
+                "javax.persistence.query.timeout", 5
+        ));
     }
 
     @Override

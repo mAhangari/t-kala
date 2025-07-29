@@ -59,7 +59,7 @@ public class DatabaseConfig {
         localContainerEntityManagerFactoryBean.setDataSource(dataSource);
 
         Properties properties = new Properties();
-        properties.put("hibernate.hbm2ddl.auto", "update");
+        properties.put("hibernate.hbm2ddl.auto", "create-drop");
         properties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
         properties.put("hibernate.format_sql", "true");
         properties.put("hibernate.jpa.compliance.proxy", "false");

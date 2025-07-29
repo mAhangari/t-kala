@@ -24,7 +24,10 @@ public class Product {
 
     private Integer productQuantity;
 
-    @ManyToMany
+    /*@Version
+    private Long version;*/
+
+    @ManyToMany(mappedBy = "products")
     private Set<Store> stores = new HashSet<>();
 
     @Override
