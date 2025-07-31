@@ -8,6 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -21,7 +23,7 @@ public class Order {
 
     private String trackerId;
 
-    // @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private OrderState orderState;
 
     @CreationTimestamp
@@ -32,4 +34,7 @@ public class Order {
 
     @ManyToOne
     private Customer customer;
+
+    @OneToMany(mappedBy = "order", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    private Set<OrderItem> orderItems = new HashSet<>();
 }

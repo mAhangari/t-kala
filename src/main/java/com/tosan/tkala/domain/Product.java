@@ -1,6 +1,7 @@
 package com.tosan.tkala.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -24,11 +26,20 @@ public class Product {
 
     private Integer productQuantity;
 
+    public Product(String name, String color, Integer productQuantity) {
+        this.name = name;
+        this.color = color;
+        this.productQuantity = productQuantity;
+    }
+
     /*@Version
     private Long version;*/
 
     @ManyToMany(mappedBy = "products")
     private Set<Store> stores = new HashSet<>();
+
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    private Set<OrderItem> orderItems = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

@@ -1,5 +1,6 @@
 package com.tosan.tkala.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface BaseRepository<T, ID> {
@@ -9,6 +10,8 @@ public interface BaseRepository<T, ID> {
     List<T> findAll();
 
     void insert(T entity);
+
+    void insertAll(Collection<T> entities);
 
     void delete(T entity);
 

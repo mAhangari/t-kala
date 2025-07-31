@@ -3,10 +3,7 @@ package com.tosan.tkala.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -21,4 +18,10 @@ public class OrderItem {
     private Integer quantity;
 
     private BigDecimal orderPrice;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Product product;
 }

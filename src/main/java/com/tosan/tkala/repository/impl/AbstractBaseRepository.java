@@ -5,6 +5,7 @@ import com.tosan.tkala.repository.BaseRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +38,15 @@ public abstract class AbstractBaseRepository<T, ID> implements BaseRepository<T,
     }
 
     @Override
-    public void delete(T entity) {
-        em.remove(entity);
+    public void insertAll(Collection<T> entities) {
+        for (T entity : entities) {
+            em.persist(entity);
+        }
+    }
+
+    @Override
+    public void delete(T entities) {
+        em.remove(entities);
     }
 
     @Override

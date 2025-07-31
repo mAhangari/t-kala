@@ -8,11 +8,14 @@ import com.tosan.tkala.repository.UserRepository;
 import com.tosan.tkala.service.ProductService;
 import com.tosan.tkala.service.StoreOwnerService;
 import com.tosan.tkala.service.StoreService;
+import com.tosan.tkala.util.ProductGenerator;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +23,7 @@ import java.util.Optional;
 
 @SpringBootApplication
 public class TKalaApplication {
+
 
     public static void main(String[] args) {
         SpringApplication.run(TKalaApplication.class, args);
@@ -33,6 +37,9 @@ public class TKalaApplication {
                                             StoreService storeService,
                                             ProductService productService) {
         return exec -> {
+
+            productService.saveAll(ProductGenerator.createFakeProduct(10));
+
             Customer user = new Customer();
             user.setFirstName("Morteza");
             user.setLastName("Ahangari");
@@ -71,7 +78,7 @@ public class TKalaApplication {
 
             /*userWithAddress.getAddresses().remove(userWithAddress.getAddresses().stream().findFirst().get());*/
 //            userRepository.save(userWithAddress);
-            productService.save(simpleProduct().get(0));
+//            productService.save(simpleProduct().get(0));
             /*productService.findById(1L);*/
 
             /*userRepository.save(storeOwnerWithMultipleStore());*/
