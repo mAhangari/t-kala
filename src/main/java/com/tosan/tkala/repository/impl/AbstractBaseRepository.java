@@ -1,10 +1,10 @@
 package com.tosan.tkala.repository.impl;
 
+import com.tosan.tkala.domain.Product;
 import com.tosan.tkala.repository.BaseRepository;
+import org.hibernate.Hibernate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +21,7 @@ public abstract class AbstractBaseRepository<T, ID> implements BaseRepository<T,
 
     @Override
     public T findById(ID id) {
-        return em.find(clazz, id, LockModeType.PESSIMISTIC_READ, Map.of(
-                "javax.persistence.lock.timeout", 5000,
-                "javax.persistence.query.timeout", 5
-        ));
+        return em.find(clazz, id);
     }
 
     @Override

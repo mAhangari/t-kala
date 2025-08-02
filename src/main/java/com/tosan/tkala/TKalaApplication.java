@@ -5,9 +5,11 @@ import com.tosan.tkala.repository.AdminRepository;
 import com.tosan.tkala.repository.StoreOwnerRepository;
 import com.tosan.tkala.repository.StoreRepository;
 import com.tosan.tkala.repository.UserRepository;
+import com.tosan.tkala.service.OrderService;
 import com.tosan.tkala.service.ProductService;
 import com.tosan.tkala.service.StoreOwnerService;
 import com.tosan.tkala.service.StoreService;
+import com.tosan.tkala.util.OrderGenerator;
 import com.tosan.tkala.util.ProductGenerator;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -35,12 +37,14 @@ public class TKalaApplication {
                                             StoreOwnerService storeOwnerService,
                                             StoreRepository storeRepository,
                                             StoreService storeService,
+                                            OrderService orderService,
                                             ProductService productService) {
         return exec -> {
 
-            productService.saveAll(ProductGenerator.createFakeProduct(10));
-
-            Customer user = new Customer();
+//            productService.saveAll(ProductGenerator.createFakeProduct(10));
+            orderService.saveAll(OrderGenerator.createFakeOrder(5));
+            /*productService.save(ProductGenerator.createFakeProduct());*/
+            /*Customer user = new Customer();
             user.setFirstName("Morteza");
             user.setLastName("Ahangari");
             user.setMobileNumber("0911111111");
@@ -53,19 +57,19 @@ public class TKalaApplication {
             StoreOwner storeOwner = new StoreOwner();
             storeOwner.setFirstName("Mohammad");
             storeOwner.setLastName("Faalian");
-            storeOwner.setMobileNumber("0912345678");
+            storeOwner.setMobileNumber("0912345678");*/
 
             /*User savedUser = userRepository.save(user);
             User savedUserOne = userRepository.save(userOne);*/
             //User savedStoreOwner = userRepository.save(storeOwner);
 
-            Store store = new Store();
-            store.setName("Shahi Store");
+            /*Store store = new Store();
+            store.setName("Shahi Store");*/
             /*store.setUser(storeOwner);*/
 
 
 //            Store savedStoreOwner = storeRepository.save(store);
-            storeOwner.getStores().add(store);
+//            storeOwner.getStores().add(store);
 
 //            storeService.saveStore(storeWithStoreOwner());
 //            storeService.saveAllStore(storeWithProduct());
@@ -188,13 +192,13 @@ public class TKalaApplication {
         List<Product> products = simpleProduct();
         Store storeOne = new Store();
         storeOne.setName("Shahi Store");
-        storeOne.getProducts().add(products.get(0));
-        storeOne.getProducts().add(products.get(1));
+//        storeOne.getProducts().add(products.get(0));
+//        storeOne.getProducts().add(products.get(1));
 
         Store storeTwo = new Store();
         storeTwo.setName("Karaj Store");
-        storeTwo.getProducts().add(products.get(0));
-        storeTwo.getProducts().add(products.get(1));
+//        storeTwo.getProducts().add(products.get(0));
+//        storeTwo.getProducts().add(products.get(1));
 
         return List.of(storeOne, storeTwo);
     }

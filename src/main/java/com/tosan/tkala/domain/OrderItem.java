@@ -22,6 +22,6 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Product product;
 }

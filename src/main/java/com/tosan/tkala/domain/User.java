@@ -36,7 +36,7 @@ public abstract class User {
     @AttributeOverride(name = "postalCode", column = @Column(name = "home_postalCode"))
     @AttributeOverride(name = "city", column = @Column(name = "home_city"))*/
 
-    @OneToMany(cascade = {CascadeType.PERSIST/*, CascadeType.REMOVE*/}, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.PERSIST/*, CascadeType.REMOVE*/}, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "USER_ID", nullable = false)
     private Collection<Address> addresses = new ArrayList<>();
 

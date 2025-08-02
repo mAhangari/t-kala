@@ -2,6 +2,7 @@ package com.tosan.tkala.service.impl;
 
 import com.tosan.tkala.domain.Payment;
 import com.tosan.tkala.domain.Product;
+import com.tosan.tkala.domain.Store;
 import com.tosan.tkala.domain.dto.ProductDTO;
 import com.tosan.tkala.domain.dto.PurchaseProductDTO;
 import com.tosan.tkala.domain.enumuration.PaymentStatus;
@@ -15,7 +16,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUtil;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,43 +46,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void save(Product entity) {
-
-        try {
-
-            System.out.println(em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity));
-            System.out.println(em.contains(entity));
-
-            productRepository.insert(entity);
-
-            Payment payment = new Payment();
-            payment.setPaymentId("6378192q0");
-            payment.setPaymentStatus(PaymentStatus.SUCCESS);
-            payment.setIssueDate(LocalDateTime.now());
-
-            em.persist(payment);
-            em.flush();
-            em.detach(payment);
-
-            payment.setPaymentStatus(PaymentStatus.PENDING);
-
-            System.out.println(em.contains(payment));
-            Payment mergedPayment = em.merge(payment);
-
-            System.out.println(em.contains(mergedPayment));
-
-            System.out.println(productRepository.findById(1L));
-
-            List<Product> productId = em.createQuery("select p from Product p where p.id =: productId", Product.class)
-                    .setParameter("productId", 1L)
-                    .getResultList();
-            System.out.println(productId.get(0).getColor());
-
-            System.out.println(em.contains(entity));
-        } catch (Exception e) {
-            // rollback
-            e.printStackTrace();
-        }
-
+        productRepository.insert(entity);
     }
 
     @Override
@@ -98,12 +65,33 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional//(timeout = 5)
+//    @Transactional//(timeout = 5)
     public void purchaseProduct(PurchaseProductDTO purchaseProduct) {
-        Product product = productRepository.findById(purchaseProduct.getProductId());
-        if (product.getProductQuantity() < purchaseProduct.getProductCount())
+
+        productRepository.findById(purchaseProduct.getProductId());
+
+        /*if (product.getProductQuantity() < purchaseProduct.getProductCount())
             throw new RuntimeException("Product quantity is not enough!");
-        product.setProductQuantity(product.getProductQuantity() - purchaseProduct.getProductCount());
+        product.setProductQuantity(product.getProductQuantity() - purchaseProduct.getProductCount());*/
+    }
+
+    @Override
+    @Transactional
+    public ProductDTO getProduct(long productId) {
+
+        Product product = productRepository.findById(productId);
+        return fromProduct(product);
+    }
+
+    private ProductDTO fromProduct(Product product) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setName(product.getName());
+        productDTO.setColor(product.getColor());
+        productDTO.setProductQuantity(product.getProductQuantity());
+        productDTO.setAvailableStores(product.getStores().stream().map(Store::getName).collect(Collectors.toSet()));
+        productDTO.setOrderedQuantity(product.getOrderItems().size());
+
+        return productDTO;
     }
 
 

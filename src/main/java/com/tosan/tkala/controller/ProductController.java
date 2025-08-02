@@ -1,5 +1,7 @@
 package com.tosan.tkala.controller;
 
+import com.tosan.tkala.domain.dto.OrderDTO;
+import com.tosan.tkala.domain.dto.ProductDTO;
 import com.tosan.tkala.domain.dto.PurchaseProductDTO;
 import com.tosan.tkala.service.DataImportService;
 import com.tosan.tkala.service.ProductService;
@@ -26,5 +28,10 @@ public class ProductController {
     public ResponseEntity<Void> createProduct(@PathVariable(name = "productCount") int productCount) {
         dataImportService.importProducts(productCount);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-product/{productId}")
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable(name = "productId") int productId) {
+        return ResponseEntity.ok(productService.getProduct(productId));
     }
 }

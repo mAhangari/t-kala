@@ -19,4 +19,6 @@ public interface ProductService {
     void delete(Product entity);
 
     void purchaseProduct(PurchaseProductDTO purchaseProduct);
+
+    ProductDTO getProduct(long productId);
 }

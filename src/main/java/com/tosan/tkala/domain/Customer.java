@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +15,7 @@ import java.util.Collection;
 @Setter
 public class Customer extends User {
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private Collection<Order> orders = new ArrayList<>();
 
 }

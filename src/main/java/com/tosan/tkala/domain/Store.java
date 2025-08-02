@@ -26,7 +26,7 @@ public class Store {
     @Column(name = "STORE_NAME")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID"/*, insertable = false, updatable = false*/)
     private User user;
 
@@ -36,12 +36,13 @@ public class Store {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    /*@ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "STORE_PRODUCT_TABLE",
             joinColumns = @JoinColumn(name = "STORE_ID"),
             inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
-    )
-    private Set<Product> products = new HashSet<>();
+    )*/
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Product product;
 
     @Override
     public String toString() {

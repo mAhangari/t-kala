@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+//@org.hibernate.annotations.BatchSize(size = 50)
 public class Product {
 
     @Id
@@ -35,10 +37,12 @@ public class Product {
     /*@Version
     private Long version;*/
 
-    @ManyToMany(mappedBy = "products")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    /*@org.hibernate.annotations.Fetch(org.hibernate.annotations.FetchMode.SELECT)*/
     private Set<Store> stores = new HashSet<>();
 
-    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    /*@org.hibernate.annotations.Fetch(org.hibernate.annotations.FetchMode.SELECT)*/
     private Set<OrderItem> orderItems = new HashSet<>();
 
     @Override
@@ -46,7 +50,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Product product = (Product) o;
-        return id != null && Objects.equals(id, product.id);
+        return id != null && Objects.equals(id, product.getId());
     }
 
     @Override
